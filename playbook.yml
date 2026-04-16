@@ -4,13 +4,13 @@
   become: yes
 
   tasks:
-    - name: Copy WAR file to Tomcat
+    - name: Copy war file to Tomcat
       copy:
-        src: "{{ lookup('env','WORKSPACE') }}/target/2023MavenWebAppPipelineWithAnsible.war"
-        dest: /opt/tomcat/webapps/
-        remote_src: no
+        src: "/var/snap/jenkins/5013/workspace/2023MavenAnsible/target/2023MavenAnsible.war"
+        dest: "/opt/tomcat/webapps/2023MavenAnsible.war"
+        remote_src: yes
 
     - name: Restart Tomcat
-      systemd:
-        name: tomcat
-        state: restarted
+      shell: |
+        /opt/tomcat/bin/shutdown.sh || true
+        /opt/tomcat/bin/startup.sh
